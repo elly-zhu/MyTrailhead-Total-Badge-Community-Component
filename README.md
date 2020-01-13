@@ -1,0 +1,1 @@
+# MyTrailhead-Total-Badge-Community-Component
