@@ -1,0 +1,8 @@
+<design:component label="myTrailhead Community TotalBadge DEMO Cmp">
+    <design:attribute name="paddingSize" label="Container padding size"
+        datasource="none,xxx-small,xx-small,x-small,small,medium,large,x-large,xx-large" default="small" />
+    <design:attribute name="height" label="Height" default="auto" />
+    <design:attribute name="showMyProfile" label="Show My Profile" default="true" />
+    <design:attribute name="showMyBadges" label="Show My Badges" default="true" />
+    <design:attribute name="showLeaderboard" label="Show Leaderboard" default="true" />
+</design:component>

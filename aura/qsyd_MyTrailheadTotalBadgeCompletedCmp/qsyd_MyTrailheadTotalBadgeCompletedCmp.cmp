@@ -1,0 +1,146 @@
+<aura:component controller="qsyd_MyTHTotalBadgeCompletedController" implements="forceCommunity:availableForAllPageTypes"
+    access="global">
+
+    <aura:handler name="init" value="{!this}" action="{!c.handleInit}" />
+
+    <aura:attribute name="currentUserId" type="String" />
+    <aura:attribute name="myTHUserDetail" type="Object" />
+    <aura:attribute name="trailheadUserDataList" type="List" />
+    <aura:attribute name="myTHUserCompletedBadges" type="List" />
+
+    <aura:attribute name="myTHInstanceDomainName" type="String" />
+    <aura:attribute name="myTrailheadCommunityDomain" type="String" />
+    <aura:attribute name="communityPrefix" type="String" default='' />
+
+
+    <!-- Utilities Controls -->
+    <aura:attribute name="showSpinner" type="Boolean" default="true" />
+    <aura:attribute name="hasError" type="Boolean" default="false" />
+    <aura:attribute name="errorMessage" type="String" />
+    <!-- Utilities Controls /-->
+
+    <!-- Design Panel Configurations -->
+    <aura:attribute name="showMyBadges" type="Boolean" default="true" />
+    <aura:attribute name="showMyProfile" type="Boolean" default="true" />
+    <aura:attribute name="showLeaderboard" type="Boolean" default="true" />
+    <aura:attribute name="paddingSize" type="String" default="small" />
+    <aura:attribute name="height" type="String" />
+
+
+    <div style="{! (and(v.height != null, v.height.length > 0))? 'height:auto;': 'height:' + v.height }"
+        class="{! 'slds-p-around_' + v.paddingSize }">
+        <div>
+            <aura:if isTrue="{!v.showSpinner}">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
+            <aura:if isTrue="{!v.hasError}">
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <b>{!v.errorMessage}</b>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!not(v.hasError)}">
+
+                <aura:if isTrue="{!v.showMyProfile}">
+                    <div class="slds-p-around_small">
+                        <div class="slds-grid">
+                            <div>
+                                <img class="slds-m-right_x-large trailheadUserPhoto"
+                                    src="{!v.myTHUserDetail.trailheadUserDataRecord.trailheadapp__Avatar__c}"
+                                    alt="Profile Picture" />
+                            </div>
+                            <div class="slds-grid slds-wrap slds-gutters slds-grid_align-start">
+                                <div class="slds-col slds-size_1-of-1">
+                                    <span
+                                        class="slds-text-heading_small trailheadUserName">{!v.myTHUserDetail.trailheadUserDataRecord.Name}</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-p-vertical_small">
+                                        <p class="slds-text-title_caps">Leaderboard Rank</p>
+                                        <p class="trailheadUserRank">{!'# ' + v.myTHUserDetail.userLeaderboardRank }</p>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-p-vertical_small">
+                                        <p class="heading slds-text-title_caps">Points</p>
+                                        <p class="trailheadUserPoints">
+                                            {!v.myTHUserDetail.trailheadUserDataRecord.trailheadapp__Total_Points__c}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+
+                <aura:if isTrue="{!v.showMyBadges}">
+                    <div class="slds-p-around_small">
+                        <p class="slds-text-heading_small">My Badges</p>
+                        <div class="trailheadUserCompletedBadges">
+                            <aura:iteration items="{!v.myTHUserCompletedBadges}" var="item">
+                                <div class="slds-p-around_x-small badges-item">
+                                    <a target="_blank" href="{#item.url}">
+                                    <img src="{#item.icon}" style="width:30px" title="{#item.name}" alt="{#item.name}"/>
+                                    </a> 
+                                </div>
+                            </aura:iteration>
+                            <aura:if isTrue="{!v.myTHUserCompletedBadges.length == 0}">
+                                <div class="slds-p-vertical_small">
+                                    <p class="slds-text-color_weak">You haven't got any badges yet.</p>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </aura:if>
+
+                <aura:if isTrue="{!v.showLeaderboard}">
+                    <div class="slds-p-around_small">
+                        <p class="slds-text-heading_small">Leaderboard</p>
+                        <div>
+                            <lightning:layout multipleRows="true" horizontalAlign="start" verticalAlign="stretch">
+                                <aura:iteration items="Rank,Name,Points,Badges" var="heading">
+                                    <lightning:layoutItem size="3"  class="slds-p-around_x-small">
+                                        <div class="header-column">
+                                            <p class="slds-text-title_caps" title="{#heading}">{#heading}</p>
+                                        </div>
+                                    </lightning:layoutItem>
+                                </aura:iteration>
+                                <aura:iteration items="{!v.trailheadUserDataList}" var="trailheadUserData">
+                                    <lightning:layoutItem size="3"  class="slds-p-around_x-small">
+                                        <div class="lb-rank">
+                                            <p class="field-data"> # {!trailheadUserData.userLeaderboardRank}</p>
+                                        </div>
+                                    </lightning:layoutItem>
+
+                                    <lightning:layoutItem size="3"  class="slds-p-around_x-small">
+                                        <div class="lb-name">
+                                            <p class="field-data">{!trailheadUserData.trailheadUserDataRecord.Name}</p>
+                                        </div>
+                                    </lightning:layoutItem>
+
+                                    <lightning:layoutItem size="3"  class="slds-p-around_x-small">
+                                        <div class="lb-points">
+                                            <p class="field-data"> {!trailheadUserData.trailheadUserDataRecord.trailheadapp__Total_Points__c}</p>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="3" class="slds-p-around_x-small">
+                                        <div class="trailheadUserCompletedBadges">
+                                            <aura:iteration items="{!trailheadUserData.tiles}" var="item">
+                                                <div class="slds-p-around_x-small badges-item">
+                                                    <a target="_blank" href="{#item.url}">
+                                                    <img src="{#item.icon}" style="width:30px" title="{#item.name}" alt="{#item.name}"/>
+                                                    </a> 
+                                                </div>
+                                            </aura:iteration>
+                                        </div>
+                                    </lightning:layoutItem>
+                                </aura:iteration>
+                            </lightning:layout>
+                        </div>
+                    </div>
+                </aura:if>
+            </aura:if>
+        </div>
+    </div>
+	
+</aura:component>

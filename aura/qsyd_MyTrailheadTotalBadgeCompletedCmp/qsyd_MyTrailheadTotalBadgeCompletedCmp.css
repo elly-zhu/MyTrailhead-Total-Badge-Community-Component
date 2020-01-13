@@ -1,0 +1,25 @@
+.THIS {
+    overflow: hidden;
+    background: white;
+}
+
+.THIS img.trailheadUserPhoto {
+    width: 90px;
+    height:  90px;
+    border-radius: 50%;
+    border: solid #efefef 1px;
+}
+
+.THIS .trailheadUserName {
+    font-weight: 700;
+}
+
+.THIS .trailheadUserRank,
+.THIS .trailheadUserPoints {
+    font-size: 1.5rem;
+}
+
+.THIS .trailheadUserCompletedBadges {
+    display: flex;
+    flex-wrap: wrap;
+}
