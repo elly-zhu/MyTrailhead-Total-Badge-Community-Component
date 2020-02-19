@@ -5,4 +5,5 @@
     <design:attribute name="showMyProfile" label="Show My Profile" default="true" />
     <design:attribute name="showMyBadges" label="Show My Badges" default="true" />
     <design:attribute name="showLeaderboard" label="Show Leaderboard" default="true" />
+    <design:attribute name="numOfBadgesToDisplay" label="Max number of badges to display per user" default="5" />
 </design:component>
