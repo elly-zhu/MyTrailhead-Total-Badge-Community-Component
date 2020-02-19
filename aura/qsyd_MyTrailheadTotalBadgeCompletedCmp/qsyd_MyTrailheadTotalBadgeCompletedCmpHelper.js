@@ -103,7 +103,9 @@
                     component.set('v.showSpinner', false);
                     component.set('v.hasError', true);
                 }
-            }, {}
+            }, {
+                numOfBadgesToDisplay: component.get('v.numOfBadgesToDisplay')
+            }
         );
     },
 
