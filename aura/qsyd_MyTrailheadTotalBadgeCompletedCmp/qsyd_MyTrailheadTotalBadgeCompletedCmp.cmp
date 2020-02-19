@@ -25,6 +25,7 @@
     <aura:attribute name="showLeaderboard" type="Boolean" default="true" />
     <aura:attribute name="paddingSize" type="String" default="small" />
     <aura:attribute name="height" type="String" />
+    <aura:attribute name="numOfBadgesToDisplay" type="Integer" default="5" />
 
 
     <div style="{! (and(v.height != null, v.height.length > 0))? 'height:auto;': 'height:' + v.height }"
@@ -98,32 +99,45 @@
                         <p class="slds-text-heading_small">Leaderboard</p>
                         <div>
                             <lightning:layout multipleRows="true" horizontalAlign="start" verticalAlign="stretch">
-                                <aura:iteration items="Rank,Name,Points,Badges" var="heading">
-                                    <lightning:layoutItem size="3"  class="slds-p-around_x-small">
-                                        <div class="header-column">
-                                            <p class="slds-text-title_caps" title="{#heading}">{#heading}</p>
-                                        </div>
-                                    </lightning:layoutItem>
-                                </aura:iteration>
+                                <lightning:layoutItem size="2"  class="slds-p-around_x-small">
+                                    <div class="header-column">
+                                        <p class="slds-text-title_caps" title="Rank">Rank</p>
+                                    </div>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2"  class="slds-p-around_x-small">
+                                    <div class="header-column">
+                                        <p class="slds-text-title_caps" title="Name">Name</p>
+                                    </div>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2"  class="slds-p-around_x-small">
+                                    <div class="header-column">
+                                        <p class="slds-text-title_caps" title="Points">Points</p>
+                                    </div>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="6"  class="slds-p-around_x-small">
+                                    <div class="header-column">
+                                        <p class="slds-text-title_caps" title="Badges">Badges</p>
+                                    </div>
+                                </lightning:layoutItem>
                                 <aura:iteration items="{!v.trailheadUserDataList}" var="trailheadUserData">
-                                    <lightning:layoutItem size="3"  class="slds-p-around_x-small">
+                                    <lightning:layoutItem size="2"  class="slds-p-around_x-small">
                                         <div class="lb-rank">
                                             <p class="field-data"> # {!trailheadUserData.userLeaderboardRank}</p>
                                         </div>
                                     </lightning:layoutItem>
 
-                                    <lightning:layoutItem size="3"  class="slds-p-around_x-small">
+                                    <lightning:layoutItem size="2"  class="slds-p-around_x-small">
                                         <div class="lb-name">
                                             <p class="field-data">{!trailheadUserData.trailheadUserDataRecord.Name}</p>
                                         </div>
                                     </lightning:layoutItem>
 
-                                    <lightning:layoutItem size="3"  class="slds-p-around_x-small">
+                                    <lightning:layoutItem size="2"  class="slds-p-around_x-small">
                                         <div class="lb-points">
                                             <p class="field-data"> {!trailheadUserData.trailheadUserDataRecord.trailheadapp__Total_Points__c}</p>
                                         </div>
                                     </lightning:layoutItem>
-                                    <lightning:layoutItem size="3" class="slds-p-around_x-small">
+                                    <lightning:layoutItem size="6" class="slds-p-around_x-small">
                                         <div class="trailheadUserCompletedBadges">
                                             <aura:iteration items="{!trailheadUserData.tiles}" var="item">
                                                 <div class="slds-p-around_x-small badges-item">
