@@ -12,9 +12,9 @@ global class qsyd_MyTHTotalBadgeCompletedController {
     } 
 
     @AuraEnabled
-    public static List<myTH_UserDetail> getAllTrailheadUserDataList(){
+    public static List<myTH_UserDetail> getAllTrailheadUserDataList(Integer numOfBadgesToDisplay){
         List<myTH_UserDetail> trailheadUserDataWrapperList = new List<myTH_UserDetail> ();
-        trailheadapp__Trailhead_User_Data__c u;
+        trailheadapp__Trailhead_User_Data__c u; 
         Integer i,j = 0, currentRankIdx = 1, currentRankPoint = 0;
 
         List<trailheadapp__Trailhead_User_Data__c> trailheadUserDataList = [
@@ -37,7 +37,13 @@ global class qsyd_MyTHTotalBadgeCompletedController {
             }
             //Update this user's badges list with the new iterated record
             List<trailheadapp__User_Badge__c> currentUserBadgesList = userBadgesList2DMap.get(userBadgesList[i].trailheadapp__User__c);
-            currentUserBadgesList.add(userBadgesList[i]);
+            //currentUserBadgesList.add(userBadgesList[i]);
+  
+            //LIMIT display 5 Badges per user  
+            if(currentUserBadgesList.size() < numOfBadgesToDisplay){
+                currentUserBadgesList.add(userBadgesList[i]);
+            }
+            
         } 
 
         //trailheadUserDataWrapper Array List - output: trailheadUserDataWrapperList
